@@ -4,8 +4,6 @@ author: "Dustin Johnson"
 date: "August 1, 2018"
 output:
   html_document:
-    theme: journal
-    highlight: espresso
     keep_md: true
     toc: true
 ---

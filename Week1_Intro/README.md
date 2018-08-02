@@ -4,8 +4,6 @@ author: "Dustin Johnson"
 date: "August 1, 2018"
 output:
   html_document:
-    theme: journal
-    highlight: espresso
     keep_md: true
     toc: true
 ---
@@ -148,7 +146,7 @@ date()
 ```
 
 ```
-## [1] "Thu Aug  2 01:32:00 2018"
+## [1] "Thu Aug  2 01:33:57 2018"
 ```
 
 
