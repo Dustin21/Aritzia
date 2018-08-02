@@ -1,14 +1,18 @@
 ---
-title: 'Week 1: Intro to R & Data Wrangling'
+title: 'Week 1: R Primer'
 author: "Dustin Johnson"
 date: "August 1, 2018"
 output:
   html_document:
+    theme: journal
+    highlight: espresso
     keep_md: true
     toc: true
 ---
 
-# Part 1: Introduction
+
+
+# Part 1: Introduction to R
 
 ---
 
@@ -33,8 +37,18 @@ install.packages("tidyverse")
 
 R will point to CRAN and install the package of choice, which in this case is `tidyverse`. 
 
+Let's say I want to read and analyse stock data through an API (more on API's later). I can search on Google and find that the package "quantmod" does the trick! So, I can install the package, check the library and read it into R from the library anytime I need it (must be done once per session). In these packages are many useful functions! 
 
-# Part 2: Navigating RStudio
+
+```r
+# I can make comments with hash tags
+install.packages("quantmod") # install
+library() # check library
+library(quantmod) # load the package in this R session
+```
+
+
+# Part 2: Navigating RStudio  <a name="nav"></a>
 
 ---
 
@@ -146,7 +160,7 @@ date()
 ```
 
 ```
-## [1] "Thu Aug  2 01:33:57 2018"
+## [1] "Thu Aug  2 09:43:44 2018"
 ```
 
 
@@ -155,7 +169,7 @@ random.noise <- rnorm(100, mean = 20, sd = 5)
 hist(random.noise)
 ```
 
-![](README_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ### Help! What does a function do?
 
@@ -166,8 +180,15 @@ hist(random.noise)
 ?rnorm
 ```
 
+
+If that's not enough:
+
+* Cran has all the tutorials you need online in a pdf format for each function
+* Some functions have `vignette`'s, which offer a how-to manual with many code examples and contexts. To check if a package contains a vignette, simply enter `vignette('package_name)`. Try `vignette(dplyr)`, for instance.
+* Stack Overflow is a great great resource of fellow programmers. If you have a question, I can almost guarantee you'll find it there
+
 * **TASK 1**: What does the build-in function `lm()` do?
-* **TASK 2**: Simulate 5 draws from a standard normal distribution with `rnorm()`. 
+* **TASK 2**: Simulate 5 draws from a normal distribution with a mean of 2 from `rnorm()`. 
 
 ### Comments and Naming Conventions
 
@@ -343,6 +364,10 @@ is.matrix(mat)
 
 A dataframe, much like a list for vectors, can contain data of different types in each of it's columns. The data.frame is your friend, as most data you analyse will contain a combination of numeric, integer, categorical, and string variables - a data.frame is precisely made for this.
 
+* R's data.frames can handle data of any type
+* When R reads data in, it uses data.frames so that you're data stays in a comfortable format
+* numbers stay numeric, factors stay as factors, etc.
+
 Data.frame:
 
 
@@ -362,7 +387,7 @@ print(df)
 ```
 
 
-# Part 5: Data IO
+# Part 5: Data IO & Examination
 
 ---
 
@@ -409,12 +434,23 @@ write.csv(gapminder, "data/gapminder.csv")
 ```
 
 
-# Part 6: Exploratory Data Analysis & Data Wrangling
+# Part 6: Disseminating the Data
 
-Data wrangling is the process of transforming and mapping data from one "raw" data form into another format with the intent of making it more appropriate and valuable for a variety of downstream purposes such as analytics and visualization. We want to answer business questions quickly and efficiently or turn data into a format that can be inputted into a Tableau visualization.
+Data wrangling is the process of transforming and mapping data from one "raw" data form into another format with the intent of making it more appropriate and valuable for a variety of downstream purposes such as analytics and visualization. Ultimately, we want to answer business questions quickly and efficiently or turn data into a format that can be inputted into a Tableau visualization.
 
-#### Subsetting data: 
-* Extracting columns:
+We can pull what we need from the data using simple operators. For instance,
+
+
+```r
+gapminder[1,3]
+```
+
+```
+## [1] 8425333
+```
+
+
+* Extracting columns: `my.data.frame[row index, column index]`
 * Extracting rows:
 * Subsetting by logicals (<, <=, ==, !=):
 
