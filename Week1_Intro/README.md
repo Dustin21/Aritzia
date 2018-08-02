@@ -52,6 +52,9 @@ library(quantmod) # load the package in this R session
 
 ---
 
+![rstudio](assets/rstudio-layout.png)
+
+
 ### R Versioning
 
 When you first start R, you will notice a preamble containing the version and any other necessary information. Please remember that updgrading to a new version of RStudio **does not** upgrade the R source language. These are two seperate installations - one updates the language itself, the other updates your interface.
@@ -160,7 +163,7 @@ date()
 ```
 
 ```
-## [1] "Thu Aug  2 10:08:22 2018"
+## [1] "Thu Aug 02 12:13:25 2018"
 ```
 
 
