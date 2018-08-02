@@ -160,7 +160,7 @@ date()
 ```
 
 ```
-## [1] "Thu Aug  2 09:43:44 2018"
+## [1] "Thu Aug  2 10:08:22 2018"
 ```
 
 
@@ -438,7 +438,7 @@ write.csv(gapminder, "data/gapminder.csv")
 
 Data wrangling is the process of transforming and mapping data from one "raw" data form into another format with the intent of making it more appropriate and valuable for a variety of downstream purposes such as analytics and visualization. Ultimately, we want to answer business questions quickly and efficiently or turn data into a format that can be inputted into a Tableau visualization.
 
-We can pull what we need from the data using simple operators. For instance,
+We can pull what we need from the data using simple operators. For instance, `my.data.frame[row index, column index]` will extract the particular row and column combination from the data.frame. Let's give it a try:
 
 
 ```r
@@ -449,25 +449,48 @@ gapminder[1,3]
 ## [1] 8425333
 ```
 
+```r
+gapminder[1:10, 2:4]
+```
 
-* Extracting columns: `my.data.frame[row index, column index]`
-* Extracting rows:
-* Subsetting by logicals (<, <=, ==, !=):
+```
+##    year      pop continent
+## 1  1952  8425333      Asia
+## 2  1957  9240934      Asia
+## 3  1962 10267083      Asia
+## 4  1967 11537966      Asia
+## 5  1972 13079460      Asia
+## 6  1977 14880372      Asia
+## 7  1982 12881816      Asia
+## 8  1987 13867957      Asia
+## 9  1992 16317921      Asia
+## 10 1997 22227415      Asia
+```
 
-
-
-Let's begin by learning the following functions and getting to know our dataset a bit better.
+We can also use functions to extract data in a more meaningful way. Check out the following functions:
 
 * `plot()`
 * `which()`
-* `apply()`
+* `sort()`
 * `unique()`
+* `aggregate()`
 
 Let's get to know our gapminder dataset a bit better. 
+
 
 ```r
 # what is the first country in the data.frame?
 gapminder[1,]
+
+# what are the indices of countries with gdpPercap < 300
+low.gdp.indices = which(gapminder$gdpPercap < 300)
+
+# use those indices to extract the data from the data.frame
+gapminder[low.gdp.indices,]
+
+# what country in Asia has the highest gdpPercap
+gap.asia <- gapminder[which(gapminder$continent == 'Asia'), c('country', 'gdpPercap')]
+gap.asia[order(gap.asia$gdpPercap, decreasing = TRUE), ]
 
 # extract Algeria from the data.frame while keeping only the column lifeExp
 # then save it into a new object gap.alg
@@ -479,6 +502,9 @@ mean(gap.alg)
 # Filter out Canada, Switzerland and Argentina
 countries <- c("Canada", "Switzerland", "Argentina")
 gap.sub <- gapminder[which(gapminder$country %in% countries), ]
+
+# Compute the average lifeExp by country
+aggregate(lifeExp ~ country, gap.sub, mean)
 
 # plot lifeExp to log(gdpPercap) and colour by continent
 plot(lifeExp ~ log(gdpPercap), data = gapminder, col=continent)
