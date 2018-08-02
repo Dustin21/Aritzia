@@ -1,0 +1,380 @@
+---
+title: 'Week 1: Intro to R & Data Wrangling'
+author: "Dustin Johnson"
+date: "August 1, 2018"
+output:
+  html_document:
+    theme: journal
+    highlight: espresso
+    keep_md: true
+    toc: true
+---
+
+# Part 1: Introduction
+
+---
+
+### What is R?
+
+[R](https://www.r-project.org/about.html) is a language and environment for statistical computing and graphics used by a growing number of data analysts inside corporations and academia. It is the offspring of languages S invented in the 1970's. R is primarily a _functional_ programming language, but is built upon the basis of the object oriented languages C and Fortran. R has also quickly found a following because statisticians, engineers and scientists without computer programming skills find it easy to use, and better yet, it's free!
+
+### What is RStudio?
+
+[RStudio](https://www.rstudio.com/about/) is an integrated development environment (IDE). In other words, it is the interface that provides you with all the goodies that make your R use much more pleasant.
+
+### What is CRAN?
+
+The Comprehensive R Archive Network (CRAN) is a global repository that contains open-source packages that extend the capabiltiies of R. This entity ensure that packages are reliable and best practices are followed. There are now more than 10,000 R packages available for download, most of which have taken academics and researchers years to develop!
+
+R automatically connects to CRAN, so as you did in the installation phase:
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+R will point to CRAN and install the package of choice, which in this case is `tidyverse`. 
+
+
+# Part 2: Navigating RStudio
+
+---
+
+### R Versioning
+
+When you first start R, you will notice a preamble containing the version and any other necessary information. Please remember that updgrading to a new version of RStudio **does not** upgrade the R source language. These are two seperate installations - one updates the language itself, the other updates your interface.
+
+**TASK**: What version of R are you running?
+
+### R Console
+
+The R console is where your code _runs_ or gets executed, but it is not where you write your code. You can write short snippets or commands here, but any code you plan to save should be left for an R script, otherwise all will be lost after you close R.
+
+* **TASK 1**: In the R console, type `print("Hello World!")`.
+* **TASK 2**: In the R console, type `boxplot(matrix(rt(100, 5), ncol=2))`
+
+### R Script
+
+Navigate to the top left icon in the menu bar where you will notice an icon with a blank paper and green plus sign. Click it and open a new R script. It is here where you will write any code and analysis. These files can be saved to a directory of choice and executed with the Run command.
+
+**TASK**: In a new R script, write the above commands and comment what they do using `#`, then execute them.
+
+### Environment
+
+The environment tab will contain all R objects, references and functions that have been run and are currently being stored in memory. It is a good place to locate an object, clear out space, or open an object with ease.
+
+* **TASK 1**: What variables are in your environment? What information can we glean from them here? 
+* **TASK 2**: Clear your environment.
+
+### Package Mangement
+
+As discussed previously, packages are downloaded from CRAN. Packages can be downloaded via the command:
+
+```{r, eval=FALSE}
+# install package
+install.packages("package_name_here")
+
+# load package
+library(package_name_here)
+```
+
+Another method that may be more pleasant for some is the built-in package manager. Navigating to the package manager, we notice that we are installing from CRAN, can install multiple packages at once, and make sure that we are installing the right package with the simple autocomplete feature. The package manager also enables you to update, view, and remove packages with ease.
+
+_once a package is installed, you do not have to install it again!, simply load the package with the library command when you want to use it!_
+
+* **TASK 1**: Install the package `swirl`.
+* **TASK 2**: Check your library to see if it installed.
+* **TASK 3**: Load the package `swirl`.
+
+
+### Working Directories & Projects
+
+A working directory in R is a set directory that R will point to by default. Having R point to a working directory is valuable, since R can easily navigate to any data or contents stored there without you requiring to type a long path and locate each file scattered across your computer. Stick with working directories to make your life simple.
+
+An RStudio project is an enhancement to a working directory - it makes it straightforward to divide your work into multiple contexts, each with their own working directory, workspace, history, and source documents. Everything about a specific project can be self-contained and easily reproducible by yourself or others who want to run your analysis. For more information on how to set up a project, please refer to the [help manual](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects).
+
+**TASK**: Set a working directory for today's content where all today's contents will reside. This should be used for all future sessions as well, so keep a nice directory structure!
+
+
+# Part 3: R Basics
+
+---
+
+### Objects & Assignment
+
+Everything your create in R must be _assigned_ to an _object_, which obeys the following form:
+
+
+`objectName <- value`
+
+
+* You have _assigned_ a `value` to your **object** using the `<-` operator, where value could be any integer, characters, or functions (sum, mean, your model). The operator `<-` is specific to R, as it applies direction (we are inputing our information to the object). By convention, "`=`" is not used, as it implies equality between both sides, which is not the case in most settings.
+
+#### Example
+
+```{r, eval=FALSE}
+x <- 5
+
+y <- sin(5 - pi/2)
+
+z <- seq(from = 1, to = 100, by = 1)
+
+This_is_cool <- "Hello"
+
+Can_I_do_this <- c("I", "guess")
+
+and_this <- no_way
+
+OMG_boring <- matrix(0, nrow = 10, ncol = 10)
+```
+
+We can remove an object with the function `rm()`.
+
+```{r, eval=FALSE}
+x <- "hello"
+rm(x)
+```
+
+### Base Functions
+
+R already knows some functions!
+
+```{r}
+date()
+```
+
+```{r}
+random.noise <- rnorm(100, mean = 20, sd = 5)
+hist(random.noise)
+```
+
+### Help! What does a function do?
+
+**ALWAYS LOOK AT THE FUNCTION** so you know how it works and what is required as an input. The function below will automaically render a manual for that function and provide you with further resources if necessary.
+
+```{r, eval=FALSE}
+?rnorm
+```
+
+* **TASK 1**: What does the build-in function `lm()` do?
+* **TASK 2**: Simulate 5 draws from a standard normal distribution with `rnorm()`. 
+
+### Comments and Naming Conventions
+
+There's nothing worse than reading through a slew of code and not knowing what is going on or the intention of different components. This can all be avoided by proper naming conventions of objects and commenting your code. It's best to follow these conventions:
+
+* Comment any chunk of code that may be unclear to a user or that you may forget the function of in the future.
+* Name your objects according to their purpose so it is easy to understand how they fit with the rest of your code.
+* Avoid naming an object with the same name as a base function in R - this can cause problems.
+
+
+```{r, eval=FALSE}
+# construct constants
+a <- 2
+b <- -3
+variance <- 0.5
+
+# draw 40 uniformly random numbers
+x.unif <- runif(40)
+
+# Build a function with normally distributed noise
+y <- a + b * x + rnorm(40, sd = sqrt(variance))
+
+# Average of our uniformly random variable (x)
+(x.mean <- mean(x.unif))
+```
+
+
+# Part 4: Data Structures
+
+---
+
+### Data Types
+
+R has a few major data types to remember, where the naming convention may differ from other programming languages, namely:
+
+* `integer`: does not contain decimal points
+* `numeric`: contains decimal points
+* `character`: string
+* `logical`: TRUE or FALSE
+* `factors`: ordinal or categorical 
+
+How do you ensure what you're analyzing or creating is in fact the data type required? Well, R has some build in logical functions for that!
+
+```{r}
+# check for integer value (what happens here?)
+a <- 5
+is.integer(a); is.numeric(a)
+```
+
+```{r}
+# check for integer value
+b <- "Hi there!"
+is.character(b)
+```
+
+```{r}
+# We can use logical operators (<, <=, ==, >, >=, !=)
+a <- 5 != 9
+is.logical(a)
+```
+
+```{r}
+# create 'vector' of factor variables
+f <- as.factor(c("I", "Like", "Sandy", "Beaches"))
+is.factor(f)
+```
+
+### Vectors vs Lists
+
+A vector is an array of data where all elements are of the same type.
+
+```{r}
+my.vec <- c(1, 2, 3, 4)
+print(my.vec); is.vector(my.vec)
+```
+
+A list on the other hand can contain any combination of data types, even lists of lists.
+
+```{r}
+my.list <- list(int = 1, numeric = 2.2, sublist = list(4, 5.001, "hello"), vector = my.vec)
+print(my.list)
+```
+
+As you can see, lists are much more versatile when in comes to storing multitudes of data types. These can be very useful later on.
+
+
+### Matrices vs data.frames
+
+A vector is essentially a 1D matrix. A matrix is what happens when you concatenate a bunch of vectors together that are the same length.
+
+Matrix:
+
+```{r}
+# create a matrix (what does byrow do?)
+matrix(c(1,2,3,4), nrow = 2, ncol = 2, byrow = TRUE)
+
+# column-bind two vectors
+vec1 <- c(1,2,3)
+vec2 <- c(4,5,6)
+mat <- cbind(vec1, vec2)
+is.matrix(mat)
+```
+
+A dataframe, much like a list for vectors, can contain data of different types in each of it's columns. The data.frame is your friend, as most data you analyse will contain a combination of numeric, integer, categorical, and string variables - a data.frame is precisely made for this.
+
+Data.frame:
+
+```{r}
+n = c(2, 3, 5) 
+s = c("aa", "bb", "cc") 
+b = c(TRUE, FALSE, TRUE) 
+df = data.frame(n, s, b)
+print(df)
+```
+
+
+# Part 5: Data IO
+
+---
+
+Data can come in a variety of forms: `csv`, `tsv`, `xlsx`, `json`, `xml`, etc. Understanding how to import and export data is the first step to data analysis. Let's start with the basics.
+
+1. Locate the dataset `gapminder.tsv` located in the data folder on this repository.
+2. Download it and save it to your working directory. Check `getwd()` for your current working directory location.
+3. Import the data using the command `read.delim()` (`?read.delim` for help).
+```{r, eval=FALSE}
+# import gapminder and assign to object called gapminder
+# my data is stored in the data folder in my wd
+gapminder <- read.delim("data/gapminder.tsv")
+```
+4. Describe your data - tell me what you see
+```{r, eval=FALSE}
+# how many rows? columns?
+nrow(gapminder)
+ncol(gapminder)
+dim(gapminder)
+
+# column names?
+names(gapminder)
+
+# what data type is this?
+class(gapminder)
+is.data.frame(gapminder)
+
+# what does the data looks like?
+# very useful! Don't want to print all data to screen.
+head(gapminder); tail(gapminder, 5)
+
+# structure of the data (see it all!)
+str(gapminder)
+
+# summarize the data
+summary(gapminder)
+```
+5. Save your data as a `csv` file to your wd using `write.csv()`
+```{r, eval=FALSE}
+write.csv(gapminder, "data/gapminder.csv")
+```
+
+
+# Part 6: Exploratory Data Analysis & Data Wrangling
+
+Data wrangling is the process of transforming and mapping data from one "raw" data form into another format with the intent of making it more appropriate and valuable for a variety of downstream purposes such as analytics and visualization. We want to answer business questions quickly and efficiently or turn data into a format that can be inputted into a Tableau visualization.
+
+#### Subsetting data: 
+* Extracting columns:
+* Extracting rows:
+* Subsetting by logicals (<, <=, ==, !=):
+
+
+
+Let's begin by learning the following functions and getting to know our dataset a bit better.
+
+* `plot()`
+* `which()`
+* `apply()`
+* `unique()`
+
+Let's get to know our gapminder dataset a bit better. 
+```{r,eval=FALSE}
+# what is the first country in the data.frame?
+gapminder[1,]
+
+# extract Algeria from the data.frame while keeping only the column lifeExp
+# then save it into a new object gap.alg
+gap.alg <- gapminder[which(gapminder$country == 'Algeria'), 'lifeExp']
+
+#  What is the average lifeExp in Algeria?
+mean(gap.alg)
+
+# Filter out Canada, Switzerland and Argentina
+countries <- c("Canada", "Switzerland", "Argentina")
+gap.sub <- gapminder[which(gapminder$country %in% countries), ]
+
+# plot lifeExp to log(gdpPercap) and colour by continent
+plot(lifeExp ~ log(gdpPercap), data = gapminder, col=continent)
+
+# which continent is denoted in blue?
+# which continent has the highest variance?
+```
+
+
+# Activity for Next Week
+
+---
+
+[R swirl](https://swirlstats.com/students.html): Try to complete the courses:
+
+1. R Programming
+2. Getting and Cleaning Data (start this for a feel of next week!)
+
+
+# Additional Resources
+
+---
+
+* [Introduction to R](http://r4ds.had.co.nz/intro.html)
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [Google](www.google.ca)
+* [Stack Overflow](https://stackoverflow.com/)
+
