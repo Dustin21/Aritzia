@@ -25,6 +25,8 @@ output:
 
 ___
 
+Download here: [Gapminder](https://github.com/Dustin21/Aritzia/raw/master/Week1_Intro/data/gapminder.tsv)
+
 We begin by importing the Gampinder dataset. It is always important to examine the data for two reasons:
 
 1. Gain an understanding of the data you're about to work with (don't go in blind)
